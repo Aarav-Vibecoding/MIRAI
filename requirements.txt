@@ -39,13 +39,6 @@ itsdangerous==2.2.0
 Jinja2==3.1.6
 jiter==0.9.0
 Js2Py==0.74
-Kivy==2.3.1
-kivy-deps.angle==0.4.0
-kivy-deps.glew==0.3.1
-Kivy-Garden==0.1.5
-kivy_deps.gstreamer==0.3.4
-kivy_deps.sdl2==0.8.0
-kivymd==1.2.0
 lxml==6.0.0
 MarkupSafe==3.0.2
 MouseInfo==0.1.3
