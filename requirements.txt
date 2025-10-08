@@ -1,5 +1,5 @@
 # Python version
-python_version >= "3.13" and < "3.15"
+python==3.13.4
 
 # Core dependencies
 Flask==3.0.3
