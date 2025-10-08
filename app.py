@@ -5,6 +5,7 @@ from extensions import db, mail, login_manager
 from routes import app_routes
 from sqlalchemy import text
 
+
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
@@ -22,7 +23,7 @@ def create_app():
         db.create_all()
 
         # --- Auto schema check & fix ---
-        engine = db.get_engine()
+        engine = db.engine  # ✅ updated to new API (no DeprecationWarning)
         with engine.connect() as conn:
             res = conn.execute(text("PRAGMA table_info('attachment')")).fetchall()
             cols = [row[1] for row in res]  # row[1] is the column name
@@ -32,6 +33,7 @@ def create_app():
                 print("✅ Column 'message_id' added.")
 
     return app
+
 
 if __name__ == '__main__':
     app = create_app()
