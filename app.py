@@ -1,40 +1,65 @@
-# app.py
 from flask import Flask
-from config import Config
-from extensions import db, mail, login_manager
-from routes import app_routes
-from sqlalchemy import text
+from flask_sqlalchemy import SQLAlchemy
+from flask_login import LoginManager
+from flask_mail import Mail
+from flask_wtf import CSRFProtect
+from dotenv import load_dotenv
+import os
 
+# Load environment variables
+load_dotenv()
+
+# Initialize extensions
+db = SQLAlchemy()
+login_manager = LoginManager()
+mail = Mail()
+csrf = CSRFProtect()
 
 def create_app():
     app = Flask(__name__)
-    app.config.from_object(Config)
+
+    # Configuration
+    app.config['SECRET_KEY'] = os.getenv("SECRET_KEY", "default-secret-key")
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL", "sqlite:///mirai.db")
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    app.config['MAIL_SERVER'] = os.getenv("MAIL_SERVER", "smtp.gmail.com")
+    app.config['MAIL_PORT'] = int(os.getenv("MAIL_PORT", 587))
+    app.config['MAIL_USE_TLS'] = True
+    app.config['MAIL_USERNAME'] = os.getenv("MAIL_USERNAME")
+    app.config['MAIL_PASSWORD'] = os.getenv("MAIL_PASSWORD")
 
     # Initialize extensions
     db.init_app(app)
-    mail.init_app(app)
     login_manager.init_app(app)
+    mail.init_app(app)
+    csrf.init_app(app)
 
-    # Register Blueprints
-    app.register_blueprint(app_routes)
+    # Import and register blueprints
+    from routes.main import main
+    from routes.auth import auth
+    from routes.ai import ai
 
+    app.register_blueprint(main)
+    app.register_blueprint(auth)
+    app.register_blueprint(ai)
+
+    # Create database tables if needed
     with app.app_context():
-        from models import User, Chat, Message, Attachment
         db.create_all()
 
-        # --- Auto schema check & fix ---
-        engine = db.engine  # ✅ updated to new API (no DeprecationWarning)
-        with engine.connect() as conn:
-            res = conn.execute(text("PRAGMA table_info('attachment')")).fetchall()
-            cols = [row[1] for row in res]  # row[1] is the column name
-            if "message_id" not in cols:
-                print("⚠️ 'message_id' missing in 'attachment'. Adding column automatically...")
-                conn.execute(text("ALTER TABLE attachment ADD COLUMN message_id INTEGER"))
-                print("✅ Column 'message_id' added.")
+    # Flask-Login setup
+    from models import User
+    @login_manager.user_loader
+    def load_user(user_id):
+        return User.query.get(int(user_id))
+
+    login_manager.login_view = 'auth.login'
+    login_manager.login_message_category = 'info'
 
     return app
 
 
+# Only needed for local development
 if __name__ == '__main__':
     app = create_app()
     app.run(debug=True)
