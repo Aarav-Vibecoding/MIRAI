@@ -36,5 +36,5 @@ itsdangerous==2.2.0
 click==8.1.7
 
 # OCR support (optional)
-pillow==10.3.0
+pillow==10.2.0
 pytesseract==0.3.10
