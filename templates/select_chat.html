@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Select or create a chat session</h2>
+<form method="POST">
+  <div class="input-group mb-3">
+    <input type="text" name="name" class="form-control" placeholder="New chat name...">
+    <button class="btn btn-success">Start Chat</button>
+  </div>
+</form>
+<ul class="list-group">
+  {% for chat in chats %}
+    <li class="list-group-item">
+      <a href="{{ url_for('app_routes.jarvis') }}?chat_id={{ chat.id }}">{{ chat.name }}</a>
+    </li>
+  {% endfor %}
+</ul>
+{% endblock %}

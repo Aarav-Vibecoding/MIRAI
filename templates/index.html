@@ -1,0 +1,252 @@
+{% extends "base.html" %}
+
+{% block head %}
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow-y: auto !important; /* ✅ Ensure vertical scrolling */
+    overflow-x: hidden;
+    font-family: 'Segoe UI', sans-serif;
+    background: #000;
+    color: white;
+    scroll-behavior: smooth;
+  }
+
+
+  section {
+    padding: 5rem 2rem;
+    width: 100%;
+  }
+
+  .hero {
+    padding: 3rem 2rem;
+    min-height: 90vh;
+    background: linear-gradient(145deg, #0f0f0f, #0a0a0a);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-image: radial-gradient(circle at 30% 20%, #222222 0%, transparent 70%);
+  }
+
+  .hero h1 {
+    font-size: 4rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+    color: #fff;
+  }
+
+  .highlight-blue {
+    color: #00aaff;
+    text-shadow: 0 0 10px #00aaff99;
+  }
+
+  .hero p {
+    font-size: 1.2rem;
+    color: #aaa;
+    margin-bottom: 2rem;
+  }
+
+  .btn-group {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .btn-group .btn {
+    padding: 0.75rem 1.75rem;
+    font-size: 1.1rem;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 170, 255, 0.2);
+  }
+
+  .btn-group .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 170, 255, 0.35);
+  }
+
+  .about-section {
+    background-color: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .about-box {
+    max-width: 1000px;
+    background-color: #1a1a1a;
+    padding: 2.5rem;
+    border-radius: 20px;
+    border: 1px solid #2a2a2a;
+    box-shadow: 0 0 25px rgba(0, 255, 195, 0.15);
+    animation: fadeIn 2s ease-out;
+  }
+
+  .about-box:hover {
+    box-shadow: 0 0 30px rgba(0, 255, 195, 0.3);
+  }
+
+  .about-box h2 {
+    color: #00ffc3;
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+
+  .about-box p,
+  .about-box ul {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: #ccc;
+  }
+
+  .about-box ul {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 1rem;
+  }
+
+  .about-box ul li::before {
+    content: "🌟";
+    margin-right: 10px;
+  }
+
+  .features-section {
+    background: linear-gradient(to bottom, #000, #000);
+    text-align: center;
+    padding: 6rem 2rem;
+  }
+
+  .features-section h2 {
+    font-size: 2.5rem;
+    color: #00ffc3;
+    margin-bottom: 3rem;
+    text-shadow: 0 0 10px #00ffc3a0;
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: auto;
+  }
+
+  .feature-card {
+    background-color: #1c1c1c;
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 0 18px rgba(0, 255, 200, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .feature-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 0 35px rgba(0, 255, 200, 0.4);
+  }
+
+  .feature-card h4 {
+    color: #00ffc3;
+    font-size: 1.3rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .feature-card p {
+    color: #aaa;
+    font-size: 1rem;
+  }
+
+  footer {
+    background-color: #000;
+    color: #888;
+    text-align: center;
+    padding: 2rem 1rem;
+    font-size: 0.95rem;
+    border-top: 1px solid #111;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero -->
+<section class="hero">
+  <h1>Welcome to <span class="highlight-blue">Mirai</span> 💬</h1>
+  <p>Your futuristic AI assistant for productivity, creativity, and knowledge.</p>
+  <div class="btn-group">
+    <a href="{{ url_for('app_routes.login') }}" class="btn btn-primary">Login</a>
+    <a href="{{ url_for('app_routes.register') }}" class="btn btn-success">Register</a>
+  </div>
+</section>
+
+<!-- About -->
+<section class="about-section" id="about">
+  <div class="about-box">
+    <h2>About Mirai</h2>
+    <p>Mirai is a modern AI assistant that helps you think, create, and explore better. It offers intelligent chats, document understanding, memory, and much more.</p>
+    <ul>
+      <li>Context-aware chat conversations</li>
+      <li>Remembers previous session details</li>
+      <li>Dark/light mode support</li>
+      <li>Export conversations to text, JSON, or Markdown</li>
+    </ul>
+  </div>
+</section>
+
+<!-- Features -->
+<section class="features-section">
+  <h2>🔍 Explore Features</h2>
+  <div class="features-grid">
+    <div class="feature-card">
+      <h4>🧠 Chat Memory</h4>
+      <p>Mirai remembers key facts and topics across each session.</p>
+    </div>
+    <div class="feature-card">
+      <h4>🎙️ Voice Input</h4>
+      <p>Talk to Mirai using your mic — it listens and understands.</p>
+    </div>
+    <div class="feature-card">
+      <h4>🔊 Text to Speech</h4>
+      <p>Let Mirai speak back answers using realistic voice synthesis.</p>
+    </div>
+    <div class="feature-card">
+      <h4>🌗 Dark Mode</h4>
+      <p>Switch themes with a single click for comfort and clarity.</p>
+    </div>
+    <div class="feature-card">
+      <h4>📤 Chat Export</h4>
+      <p>Save your chats to `.txt`, `.json`, or `.md` formats.</p>
+    </div>
+  </div>
+</section>
+
+<section class="about-section">
+  <div class="about-box">
+    <h2>Some rules to use MIRAI</h2>
+    <ul>
+      <li>Make sure that internet is working properly while registering your email.</li>
+      <li>Use it for only day to day life question / problems.</li>
+      <li>If you are using the mobile , please rotate your device else you will get and error.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  Made with ❤️ by <span class="highlight-blue">Aarav dhiman</span> — © 2025. All Rights Reserved.
+</footer>
+{% endblock %}

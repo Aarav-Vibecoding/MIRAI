@@ -1,0 +1,16 @@
+Flask
+Flask-Login
+Flask-Mail
+Flask-WTF
+Flask-SQLAlchemy
+SQLAlchemy
+Werkzeug
+python-dotenv
+requests
+Pillow
+PyPDF2
+python-docx
+pytesseract
+itsdangerous
+email_validator
+gunicorn
